@@ -36,6 +36,17 @@ class ChoiceField(BaseField):
         self.value = value
 
 
+class ListField(BaseField):
+    def __init__(self, items=[]):
+        self.items = items
+
+    def __set__(self, obj, value):
+        if type(value) is not list:
+            raise ValidationError("Value isn't an list.")
+
+        self.value = value
+
+
 if __name__ == '__main__':
     class Person:
         age = IntField()
