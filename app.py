@@ -1,7 +1,7 @@
 import tornado.ioloop
 import tornado.web
 from settings import logger
-from urls import urlspatterns
+from core.urls import urlspatterns
 
 
 def make_app():

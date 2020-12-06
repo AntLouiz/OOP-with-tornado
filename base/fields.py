@@ -1,5 +1,5 @@
-from exceptions import ValidationError
-from models import Model
+from base.exceptions import ValidationError
+from base.models import Model
 
 
 class BaseField:

@@ -1,15 +1,17 @@
+import json
 import tornado.ioloop
 import tornado.web
 from tornado.httpclient import HTTPResponse
-from core.gateways import GatewaySelector
+from core.gateways import GatewayFactory
 
 
 class TransactionHandler(tornado.web.RequestHandler):
-    gateway_selector = GatewaySelector()
+    gateway_factory = GatewayFactory()
 
     def post(self, *args, **kwargs):
-        print(self.request.body)
+        body = self.request.body
+        body_decoded = json.loads(body)
 
-        self.write("Hello World")
+        self.write(body_decoded)
         return
 
