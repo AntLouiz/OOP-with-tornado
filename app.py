@@ -1,11 +1,15 @@
 import tornado.ioloop
 import tornado.web
-from settings import logger
+import motor
+from settings import logger, database
 from core.urls import urlspatterns
 
 
 def make_app():
-    app = tornado.web.Application(urlspatterns)
+    settings = {
+        "database": database
+    }
+    app = tornado.web.Application(urlspatterns, settings=settings)
     return app
 
 
