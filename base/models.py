@@ -1,5 +1,11 @@
 
 class Model:
+    def __init__(self, raw_data={}):
+        for key in raw_data:
+            assert hasattr(self, key), f'Rogue field "{key}".'
+            value = raw_data[key]
+            setattr(self, key, value)
+
     def __getitem__(self, key):
         value = getattr(self, key)
         return value

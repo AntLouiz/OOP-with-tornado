@@ -15,8 +15,10 @@ class BaseField:
 
 
 class StringField(BaseField):
-    pass
+    value = ""
 
+    def __set__(self, obj, value):
+        self.value = str(value)
 
 class IntField(BaseField):
     def _validate(self, value):
