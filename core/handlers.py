@@ -1,7 +1,7 @@
 import tornado.ioloop
 import tornado.web
-from gateways import GatewaySelector
 from tornado.httpclient import HTTPResponse
+from core.gateways import GatewaySelector
 
 
 class TransactionHandler(tornado.web.RequestHandler):

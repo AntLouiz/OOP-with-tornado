@@ -1,4 +1,5 @@
 from exceptions import ValidationError
+from models import Model
 
 
 class BaseField:
@@ -47,13 +48,40 @@ class ListField(BaseField):
         self.value = value
 
 
+class ForeignField(BaseField):
+    def __init__(self, model):
+        value_class = self._check_class(model)
+        self.value = value_class()
+
+    def __set__(self, obj, value):
+        if type(value) is list:
+            value = filter(self._check_instance, value)
+
+        self.value = self._check_instance(value)
+
+    def _check_class(self, value_cls):
+        if not issubclass(value_cls, Model):
+            raise ValueError("Value must be an Model subclass.")
+
+        return value_cls
+
+    def _check_instance(self, obj):
+        if not isinstance(obj, Model):
+            raise ValueError("Value must be an Model instance.")
+        return obj
+
+
 if __name__ == '__main__':
-    class Person:
+    class Clothes(Model):
+        size = IntField()
+
+    class Person(Model):
         age = IntField()
         sex = ChoiceField(choices=['M', 'F', 'O'])
+        clothes = ForeignField(Clothes)
 
     person = Person()
     person.age = 20
     person.sex = 'M'
-    print(person.age)
-    print(person.sex)
+    person.clothes.size = 38
+    print(person.to_primitive())

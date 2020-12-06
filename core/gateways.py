@@ -1,8 +1,9 @@
-from fields import (
+from base.fields import (
     StringField,
     IntField,
     ChoiceField,
 )
+from base.exceptions import ValidationError
 
 
 class BaseGateway:
