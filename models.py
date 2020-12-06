@@ -11,9 +11,10 @@ class Model:
 
     @classmethod
     def to_primitive(cls):
+        keys_to_ignore = ['__module__', '__doc__']
         d = dict(cls.__dict__)
-        d.pop('__module__')
-        d.pop('__doc__')
+        for key in keys_to_ignore:
+            d.pop(key)
         primitive = {key: d[key].value for key in d}
 
         return primitive
