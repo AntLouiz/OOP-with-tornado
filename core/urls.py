@@ -1,5 +1,5 @@
-from core.handlers import TransactionHandler
+from core.handlers import CustomerHandler
 
 urlspatterns = [
-    ("/transactions/", TransactionHandler)
+    ("/customer/", CustomerHandler)
 ]

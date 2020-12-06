@@ -1,3 +1,5 @@
+from base.managers import CollectionManager
+
 
 class Model:
     def __init__(self, raw_data={}):
@@ -33,5 +35,12 @@ class Model:
 
     @classmethod
     def _filter_key(cls, key):
-        keys_to_ignore = [ '__main__', '__module__', '__doc__']
+        keys_to_ignore = [ '__main__', '__module__', '__doc__', 'objects', 'collection']
         return key in keys_to_ignore
+
+    @classmethod
+    def objects(self, *args, **kwargs):
+        return CollectionManager(self.Meta().collection) 
+
+    class Meta:
+        collection = None
