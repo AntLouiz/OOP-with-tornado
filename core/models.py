@@ -17,10 +17,10 @@ class Gateway(Model):
 
 
 class Customer(Model):
-    private_key = StringField()
-    public_key = StringField()
-    name = StringField()
-    cnpj = StringField()
+    private_key = StringField(required=True)
+    public_key = StringField(required=True)
+    name = StringField(required=True)
+    cnpj = StringField(required=True)
     gateways = ForeignField(Gateway)
 
     class Meta:

@@ -4,6 +4,9 @@ from base.models import Model
 
 class BaseField:
     value = None
+    def __init__(self, required=False):
+        self.required = required
+
     def __get__(self, obj, owner):
         return self.value
 
@@ -29,8 +32,9 @@ class IntField(BaseField):
 
 
 class ChoiceField(BaseField):
-    def __init__(self, choices=[]):
+    def __init__(self, choices=[], **kwargs):
         self.choices = choices
+        super().__init__(**kwargs)
 
     def __set__(self, obj, value):
         if value not in self.choices:
@@ -40,8 +44,9 @@ class ChoiceField(BaseField):
 
 
 class ListField(BaseField):
-    def __init__(self, items=[]):
+    def __init__(self, items=[], **kwargs):
         self.items = items
+        super().__init__(**kwargs)
 
     def __set__(self, obj, value):
         if type(value) is not list:
@@ -51,9 +56,10 @@ class ListField(BaseField):
 
 
 class ForeignField(BaseField):
-    def __init__(self, model):
+    def __init__(self, model, **kwargs):
         value_class = self._check_class(model)
         self.value = value_class()
+        super().__init__(**kwargs)
 
     def __set__(self, obj, value):
         if type(value) is list:
