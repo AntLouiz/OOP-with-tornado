@@ -12,11 +12,17 @@ class CustomerHandler(tornado.web.RequestHandler):
 
         try:
             post_data = Customer(raw_data=body_decoded)
-        except ValueError:
+        except ValueError as e:
             self.set_status(400)
-            self.write({'error': 'Invalid data.'})
+            self.write({'error': str(e)})
             return
 
-        exists_customer = await Customer.objects().find(body_decoded)
+        cnpj = post_data.cnpj
+        exists_customer = await Customer.objects().find(cnpj=cnpj)
+        if exists_customer:
+            self.set_status(400)
+            self.write({'error': 'Customer already exists'})
+            return
+
         self.write(body_decoded)
         return

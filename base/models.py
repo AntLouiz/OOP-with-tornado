@@ -1,4 +1,5 @@
 from base.managers import CollectionManager
+from base.exceptions import DataError
 
 
 class Model:
@@ -17,7 +18,7 @@ class Model:
 
             setattr(self, key, value)
         if requireds:
-            raise ValueError(f"Missing required field(s): {requireds}")
+            raise DataError(f"Missing required field(s): {requireds}")
 
     def __getitem__(self, key):
         value = getattr(self, key)

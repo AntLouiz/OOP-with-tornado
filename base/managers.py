@@ -10,11 +10,11 @@ class CollectionManager:
         query_filter = {}
         return query_filter
 
-    async def find(self, query_filter={}, many=False, *args, **kwargs):
+    async def find(self, many=False, *args, **kwargs):
         if many:
-            result = await self.collection.find(query_filter)
+            result = await self.collection.find(kwargs)
         else:
-            result = await self.collection.find_one(query_filter)
+            result = await self.collection.find_one(kwargs)
         return result
 
     async def create(self, *args, **kwargs):
