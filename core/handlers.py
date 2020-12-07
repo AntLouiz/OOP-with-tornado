@@ -2,7 +2,8 @@ import json
 import tornado.ioloop
 import tornado.web
 from tornado.httpclient import HTTPResponse
-from core.models import Customer
+from core.models import Customer, Gateway
+from base.exceptions import ValidationError
 
 
 class CustomerHandler(tornado.web.RequestHandler):
@@ -12,7 +13,7 @@ class CustomerHandler(tornado.web.RequestHandler):
 
         try:
             post_data = Customer(raw_data=body_decoded)
-        except ValueError as e:
+        except (ValueError, ValidationError) as e:
             self.set_status(400)
             self.write({'error': str(e)})
             return

@@ -2,6 +2,12 @@ from base.exceptions import ValidationError
 from base.models import Model
 
 
+class ModelType:
+    def __init__(self, model):
+        if not issubclass(model, Model):
+            raise ValueError("Value must be a model class.")
+        self.model = model
+
 class BaseField:
     value = None
     def __init__(self, required=False):
@@ -44,15 +50,23 @@ class ChoiceField(BaseField):
 
 
 class ListField(BaseField):
+    is_model_type = False
     def __init__(self, items=[], **kwargs):
+        if type(items) == ModelType:
+            self.is_model_type = True
+
         self.items = items
         super().__init__(**kwargs)
 
-    def __set__(self, obj, value):
-        if type(value) is not list:
+    def __set__(self, obj, values):
+        if type(values) is not list:
             raise ValidationError("Value isn't an list.")
 
-        self.value = value
+        if self.is_model_type:
+            for v in values:
+                self.items.model(raw_data=v)
+
+        self.value = values
 
 
 class ForeignField(BaseField):
@@ -86,7 +100,7 @@ if __name__ == '__main__':
     class Person(Model):
         age = IntField()
         sex = ChoiceField(choices=['M', 'F', 'O'])
-        clothes = ForeignField(Clothes)
+        clothes = ListField(ModelType(Clothes))
 
     person = Person()
     person.age = 20

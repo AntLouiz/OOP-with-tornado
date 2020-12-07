@@ -21,7 +21,7 @@ class Customer(Model):
     public_key = StringField(required=True)
     name = StringField(required=True)
     cnpj = StringField(required=True)
-    gateways = ForeignField(Gateway)
+    gateways = ListField()
 
     class Meta:
         collection = database.customers
