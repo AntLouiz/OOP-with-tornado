@@ -17,8 +17,8 @@ class CollectionManager:
             result = await self.collection.find_one(kwargs)
         return result
 
-    async def create(self, *args, **kwargs):
-        result = await self.collection.insert_one(kwargs)
+    async def create(self, data):
+        result = await self.collection.insert_one(data)
         return result
 
     async def update(self, *args, **kwargs):
