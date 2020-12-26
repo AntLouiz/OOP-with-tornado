@@ -12,7 +12,6 @@ class CardFormatterPattern:
         self.regex = re.compile(regex)
 
     def repl(self, matched_groups):
-        print(matched_groups.groups())
         matched_string = matched_groups.group(0)
         initial = matched_string[:4]
         middle = '*' * 8
@@ -30,7 +29,6 @@ class CustomFormatter:
             return record
 
         msg = self.original_formatter.format(record)
-        print(msg)
         for pattern in self._patterns:
             msg = re.sub(pattern.regex, pattern.repl, msg)
         return msg
