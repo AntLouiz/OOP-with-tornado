@@ -1,6 +1,7 @@
 import json
 import tornado.ioloop
 import tornado.web
+from settings import logger
 from tornado.httpclient import HTTPResponse
 from core.models import Customer, Gateway
 from base.exceptions import ValidationError, DataError
